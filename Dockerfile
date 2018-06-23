@@ -6,9 +6,12 @@ RUN apt-get update && \
     apt-get -y install gcc build-essential zlib1g zlib1g-dev && \
     rm -rf /var/lib/apt/lists/*
 
-ARG GRAALVM_INSTALLER=graalvm-ce-1.0.0-rc2-linux-amd64.tar.gz
-ARG GRAALVM_BUILD=graalvm-ce-1.0.0-rc2
+ARG GRAALVM_BUILD
 
-ADD ${GRAALVM_INSTALLER} /opt/java
-ENV JAVA_HOME=/opt/java/${GRAALVM_BUILD}
+ENV GRAALVM_VERSION=graalvm-ce-${GRAALVM_BUILD}
+
+ADD ${GRAALVM_VERSION}-linux-amd64.tar.gz /opt/java
+
+ENV GRAALVM_HOME=/opt/java/${GRAALVM_VERSION}
+ENV JAVA_HOME=${GRAALVM_HOME}
 ENV PATH=${PATH}:${JAVA_HOME}/bin
